@@ -21,8 +21,9 @@ app.get('/', (req, res) => {
 app.get('/users/:id', (req, res) => {
     for (const user of users) {
         if (user.id === +req.params.id)
-    res.send(user);
-}});
+            res.send(user);
+    }
+});
 
 app.post('/newUsers', jsonParser, (req, res) => {
     const newUser = { id: uuidv4(), email: req.body.email, password: req.body.password };
@@ -51,6 +52,14 @@ app.delete('/deleteUser/:id', jsonParser, (req, res) => {
     }
     // console.log(users);
     res.send("delete seccess!!");
+});
+
+
+app.post('/chackUser', jsonParser, (req, res) => {
+    for (const user of users) {
+        if (user.email === req.body.email && user.password === req.body.password){return res.send('User is connected!')}
+    }
+    return res.send('wrong credentials!')
 });
 
 app.listen(port, () => {
